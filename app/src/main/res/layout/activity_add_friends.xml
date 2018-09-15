@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".AddFriendsActivity">
 
     <TextView
         android:id="@+id/text_display"
-        android:text="Hi"
+        android:text="Enter in the friend's email:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -20,7 +20,7 @@
 
     <Button
         android:id="@+id/button_send"
-        android:text="Send doc"
+        android:text="Add Friend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/edittext_email" />
