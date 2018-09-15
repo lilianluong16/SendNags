@@ -76,8 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Map<String, Object> user = new HashMap<>();
         EditText name_edittext = (EditText) findViewById(R.id.edittext_name);
         String name = name_edittext.getText().toString();
-        user.put("first", name.split(" ")[0]);
-        user.put("last", name.split(" ")[1]);
+        user.put("name", name);
         user.put("email", mUser.getEmail());
 
         db.collection("users")
