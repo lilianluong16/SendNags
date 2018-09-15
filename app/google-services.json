@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "928893022313",
+    "firebase_url": "https://macro-storm-216516.firebaseio.com",
+    "project_id": "macro-storm-216516",
+    "storage_bucket": "macro-storm-216516.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:928893022313:android:37178f76d760a7e1",
+        "android_client_info": {
+          "package_name": "com.lilian.firestore.firestoretest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "928893022313-f97kp63aqmfe7ei4vibf3tn2v9ic0ma3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0mRL7CwdUobX1Wp-kz1X5PCzKzR2lhHY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
