@@ -18,6 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.FieldValue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "NEW ACTIVITY");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -81,18 +83,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // go into users, go into that person, go into "friends" array, add email of friend
         db.collection("users").document(mUser.getEmail())
-                .update("friends", FieldValue.arrayUnion(email))
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
+                .update("friends", FieldValue.arrayUnion(email));
     }
 }

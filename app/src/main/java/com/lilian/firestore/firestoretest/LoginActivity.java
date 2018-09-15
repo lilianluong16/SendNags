@@ -141,6 +141,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void updateUI(FirebaseUser account){
+        Log.d(TAG, "this happened YAYAYAYAYAYAYAYAYAYA");
         final FirebaseUser acc = account;
         if(acc != null){
             final FirebaseFirestore db = FirebaseFirestore.getInstance();
