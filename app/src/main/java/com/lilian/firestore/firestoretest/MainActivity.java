@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                         List<String> users = new ArrayList<>();
                         for(QueryDocumentSnapshot doc : queryDocumentSnapshots){
-                            if(doc.get("first") != null && doc.get("last") != null){
-                                users.add(doc.getString("first") + " " + doc.getString("last"));
+                            if(doc.get("name") != null && doc.get("email") != null){
+                                users.add(doc.getString("") + " " + doc.getString("last"));
                             }
                         }
                         TextView dt = (TextView) findViewById(R.id.text_display);
@@ -74,13 +74,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void send(){
         Map<String, Object> user = new HashMap<>();
-        EditText name_edittext = (EditText) findViewById(R.id.edittext_name);
-        String name = name_edittext.getText().toString();
-        user.put("name", name);
-        user.put("email", mUser.getEmail());
+        EditText friend = (EditText) findViewById(R.id.edittext_email);
+        String email = friend.getText().toString();
 
-        db.collection("users")
-                .add(user)
+        //user.put("email", mUser.getEmail());
+
+        // go into users, go into that person, go into "friends" array, add email of friend
+        db.collection("users").document(mUser.getEmail())
+                .update("friends", FieldValue.arrayUnion(email))
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
