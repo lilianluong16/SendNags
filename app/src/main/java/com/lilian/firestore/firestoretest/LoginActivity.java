@@ -69,15 +69,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // the GoogleSignInAccount will be non-null.
         //GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         FirebaseUser account = mAuth.getCurrentUser();
-        if(account != null) {
-            updateUI(account);
-        }
+        updateUI(account);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_in_button:
+                Log.d(TAG, "button clicked");
                 signIn();
                 break;
             // ...
@@ -85,6 +84,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void signIn() {
+        Log.d(TAG, "signing in");
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -141,8 +141,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void updateUI(FirebaseUser account){
+        Log.d(TAG, "this happened YAYAYAYAYAYAYAYAYAYA");
         final FirebaseUser acc = account;
         if(acc != null){
+            Log.d(TAG, "this happened HAHAHAH");
             final FirebaseFirestore db = FirebaseFirestore.getInstance();
             DocumentReference userRef = db.collection("users").document(acc.getEmail());
             userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
