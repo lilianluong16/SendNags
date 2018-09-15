@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                        if (e != null){
+                        /*if (e != null){
                             Log.w(TAG, "Listen failed.", e);
                             return;
                         }
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         }
                         TextView dt = (TextView) findViewById(R.id.text_display);
-                        dt.setText("All users: " + users);
+                        dt.setText("All users: " + users);*/
                     }
                 });
     }
