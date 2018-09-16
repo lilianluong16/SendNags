@@ -176,7 +176,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             });
 
-            Intent startIntent = new Intent(this, AddFriendsActivity.class);
+            Intent startIntent = new Intent(this, NavActivity.class);
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startIntent);
         }
