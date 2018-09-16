@@ -4,18 +4,21 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_home"
-            android:title="Home" />
-        <item
-            android:id="@+id/nav_send_nags"
-            android:title="Send Nags" />
-        <item
-            android:id="@+id/nav_add_friends"
-            android:title="Add Friends" />
-        <item
-            android:id="@+id/nav_friends"
-            android:title="Friends" />
+    <item
+        android:id="@+id/nav_reminders"
+        android:title="Reminders" />
+    <item
+        android:id="@+id/nav_sendrem"
+        android:title="Send Reminder" />
+    <item
+        android:id="@+id/nav_friends_list"
+        android:title="Friends" />
+    <item
+        android:id="@+id/nav_friend_requests"
+        android:title="Friend Requests" />
+    <item
+        android:id="@+id/nav_add_friend"
+        android:title="Add Friend" />
     </group>
 
 </menu>

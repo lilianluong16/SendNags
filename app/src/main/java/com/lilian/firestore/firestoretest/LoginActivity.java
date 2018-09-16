@@ -1,11 +1,14 @@
 package com.lilian.firestore.firestoretest;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -23,12 +26,18 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Nullable;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -154,6 +163,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             new_user.put("email", acc.getEmail());
                             List<String> friends = new ArrayList<String>();
                             new_user.put("friends", friends);
+                            new_user.put("requests", friends);
 
                             db.collection("users").document(acc.getEmail())
                                     .set(new_user)
@@ -176,6 +186,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             });
 
+            Log.d(TAG, "changing activity");
             Intent startIntent = new Intent(this, NavActivity.class);
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startIntent);

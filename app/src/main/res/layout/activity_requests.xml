@@ -4,18 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".NavActivity"
-    tools:showIn="@layout/app_bar_nav">
+    tools:context=".RequestsActivity">
 
-
-
-    <!-- The main content view where fragments are loaded -->
-    <FrameLayout
-        android:id="@+id/flContent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/requests_recycler_view"
+        android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"/>
 
 </android.support.constraint.ConstraintLayout>

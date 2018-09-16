@@ -1,10 +1,10 @@
 package com.lilian.firestore.firestoretest;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,9 +14,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class NavActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private FirebaseUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +30,6 @@ public class NavActivity extends AppCompatActivity
         setContentView(R.layout.activity_nav);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +64,9 @@ public class NavActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.nav, menu);
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        ((TextView) findViewById(R.id.nav_header_name)).setText(mUser.getDisplayName());
+        ((TextView) findViewById(R.id.nav_header_email)).setText(mUser.getEmail());
         return true;
     }
 
@@ -84,17 +90,29 @@ public class NavActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Intent intent = new Intent();
-        if (id == R.id.nav_home) {
-            intent = new Intent(this, NavActivity.class);
-        } else if (id == R.id.nav_send_nags) {
-            intent = new Intent(this, NagActivity.class);
-        } else if (id == R.id.nav_add_friends) {
-            intent = new Intent(this, AddFriendsActivity.class);
-        } else if (id == R.id.nav_friends) {
-            intent = new Intent(this, FriendActivity.class);
+        Fragment fragment = null;
+        Class fragmentClass = SendActivity.class;
+        if (id == R.id.nav_sendrem) {
+            // Handle the camera action
+            fragmentClass = SendActivity.class;
+        } else if (id == R.id.nav_reminders) {
+            fragmentClass = RemindersActivity.class;
+        } else if (id == R.id.nav_friends_list) {
+            fragmentClass = FriendsListActivity.class;
+        } else if (id == R.id.nav_friend_requests) {
+            fragmentClass = RequestsActivity.class;
+        } else if (id == R.id.nav_add_friend) {
+            fragmentClass = AddFriendsActivity.class;
         }
-        startActivity(intent);
+
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
