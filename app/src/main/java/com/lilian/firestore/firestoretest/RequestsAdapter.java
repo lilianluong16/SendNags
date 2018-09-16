@@ -6,11 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.view.View.OnClickListener;
 
-public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.ReViewHolder> {
+public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ReViewHolder> {
     public static String[] dataset;
-    private static final String TAG = "FriendsListAdapter";
+    private static final String TAG = "RequestsAdapter";
 
     public static class ReViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -43,12 +42,12 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
 
     }
 
-    public FriendsListAdapter(String[] ds){
+    public RequestsAdapter(String[] ds){
         dataset = ds;
     }
 
     @Override
-    public FriendsListAdapter.ReViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public RequestsAdapter.ReViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         Log.d("Friends List Adapter", Integer.toString(viewType));
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(viewType, parent, false);
@@ -68,6 +67,6 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
 
     @Override
     public int getItemViewType(final int position){
-        return R.layout.friends_list_card;
+        return R.layout.requests_card;
     }
 }

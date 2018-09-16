@@ -31,7 +31,7 @@
         <activity android:name=".RemindersActivity">
 
         </activity>
-        <activity android:name=".FriendsListActivity">
+        <activity android:name=".RequestsActivity">
 
         </activity>
     </application>
