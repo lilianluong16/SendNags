@@ -2,10 +2,14 @@ package com.lilian.firestore.firestoretest;
 
 import android.app.TimePickerDialog;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -28,7 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SendActivity extends AppCompatActivity implements View.OnClickListener {
+public class SendActivity extends Fragment implements View.OnClickListener {
     private TimePickerDialog timePickerDialog;
     private TextView timeDisplay;
     private AutoCompleteTextView friendInput;
@@ -38,16 +42,25 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseFirestore db;
     private FirebaseUser mUser;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_send);
+    static SendActivity newInstance(int num) {
+        SendActivity f = new SendActivity();
+        return f;
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        return inflater.inflate(R.layout.activity_send, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+        final View v = view;
         hour = 12;
-        Button setTimeButton = (Button) findViewById(R.id.send_time_button);
-        Button submitButton = (Button) findViewById(R.id.send_nag_button);
-        timeDisplay = (TextView) findViewById(R.id.send_time_display);
-        friendInput = (AutoCompleteTextView) findViewById(R.id.input_target);
+        Button setTimeButton = (Button) getView().findViewById(R.id.send_time_button);
+        Button submitButton = (Button) getView().findViewById(R.id.send_nag_button);
+        timeDisplay = (TextView) getView().findViewById(R.id.send_time_display);
+        friendInput = (AutoCompleteTextView) getView().findViewById(R.id.input_target);
         setTimeButton.setOnClickListener(this);
         submitButton.setOnClickListener(this);
 
@@ -76,7 +89,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                             }
                                             Log.d(TAG, listFriends.toString());
                                             ArrayAdapter<String> adapter =
-                                                    new ArrayAdapter<String>(SendActivity.this, android.R.layout.simple_list_item_1, listFriends);
+                                                    new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, listFriends);
                                             friendInput.setAdapter(adapter);
                                         }
                                     });
@@ -89,7 +102,6 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-
     }
 
     @Override
@@ -105,7 +117,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setTime(){
-        timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+        timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute_a) {
                 hour = hourOfDay;
@@ -118,7 +130,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 
     private void sendNag(){
         db.collection("users")
-                .whereEqualTo("name", ((AutoCompleteTextView) findViewById(R.id.input_target)).getText().toString())
+                .whereEqualTo("name", ((AutoCompleteTextView) getView().findViewById(R.id.input_target)).getText().toString())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -129,7 +141,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 
                                 Map<String, Object> rem = new HashMap<>();
                                 rem.put("sender", mUser.getEmail());
-                                rem.put("message", ((EditText) findViewById(R.id.input_message)).getText().toString());
+                                rem.put("message", ((EditText) getView().findViewById(R.id.input_message)).getText().toString());
                                 rem.put("time_type", "time");
                                 rem.put("hour", hour);
                                 rem.put("minute", minute);

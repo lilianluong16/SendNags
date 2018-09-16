@@ -8,4 +8,14 @@
     tools:context=".NavActivity"
     tools:showIn="@layout/app_bar_nav">
 
+
+
+    <!-- The main content view where fragments are loaded -->
+    <FrameLayout
+        android:id="@+id/flContent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
 </android.support.constraint.ConstraintLayout>

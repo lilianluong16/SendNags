@@ -3,6 +3,8 @@ package com.lilian.firestore.firestoretest;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +14,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class NavActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private FirebaseUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +64,9 @@ public class NavActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.nav, menu);
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        ((TextView) findViewById(R.id.nav_header_name)).setText(mUser.getDisplayName());
+        ((TextView) findViewById(R.id.nav_header_email)).setText(mUser.getEmail());
         return true;
     }
 
@@ -79,20 +90,29 @@ public class NavActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
+        Fragment fragment = null;
+        Class fragmentClass = SendActivity.class;
+        if (id == R.id.nav_sendrem) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            fragmentClass = SendActivity.class;
+        } else if (id == R.id.nav_reminders) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_friends_list) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_friend_requests) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_add_friend) {
 
         }
+
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

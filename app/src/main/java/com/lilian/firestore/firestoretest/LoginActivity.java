@@ -163,6 +163,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             new_user.put("email", acc.getEmail());
                             List<String> friends = new ArrayList<String>();
                             new_user.put("friends", friends);
+                            new_user.put("requests", friends);
 
                             db.collection("users").document(acc.getEmail())
                                     .set(new_user)
@@ -186,7 +187,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             });
 
             Log.d(TAG, "changing activity");
-            Intent startIntent = new Intent(this, SendActivity.class);
+            Intent startIntent = new Intent(this, NavActivity.class);
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startIntent);
         }
