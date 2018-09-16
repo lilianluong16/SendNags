@@ -27,6 +27,8 @@
             android:name=".NavActivity"
             android:label="@string/title_activity_nav"
             android:theme="@style/AppTheme.NoActionBar" />
+        <receiver android:enabled="true" android:name=".AlarmReceiver" />
+        <service android:enabled="true" android:name=".RingtonePlayer"></service>
     </application>
 
 </manifest>

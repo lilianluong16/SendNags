@@ -36,6 +36,7 @@ public class RemindersActivity extends Fragment {
     private FirebaseUser mUser;
     private String TAG = "Reminders";
     private FirebaseFirestore db;
+    public NotificationMgr nmgr;
 
     static RemindersActivity newInstance(int num) {
         RemindersActivity f = new RemindersActivity();
