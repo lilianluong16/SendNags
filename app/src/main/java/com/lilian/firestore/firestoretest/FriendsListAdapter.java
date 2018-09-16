@@ -7,14 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.ReViewHolder> {
     public static String[] dataset;
     private static final String TAG = "FriendsListAdapter";
+
 
     public static class ReViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView mTextView;
         public FriendsListActivity friendsListActivity = new FriendsListActivity();
+        private FirebaseFirestore db;
+        private FirebaseUser mUser;
         public ReViewHolder(final View itemView) {
             super(itemView);
             mTextView = itemView.findViewById(R.id.friends_text);
@@ -25,6 +32,8 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
         @Override
         public void onClick(View v) {
             if (v.getId() == R.id.button_delete) {
+                mUser = FirebaseAuth.getInstance().getCurrentUser();
+                db = FirebaseFirestore.getInstance();
                 friendsListActivity = new FriendsListActivity();
                 Log.d(TAG, "delete " + dataset[getAdapterPosition()]);
                 // delete Friend from list
