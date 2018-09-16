@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class RemindersAdapter extends RecyclerView.Adapter<RemindersAdapter.ReViewHolder> {
-    private String[] dataset;
+    private ArrayList<String> messages, senders;
 
     public static class ReViewHolder extends RecyclerView.ViewHolder{
         public TextView mTextView;
@@ -18,8 +20,9 @@ public class RemindersAdapter extends RecyclerView.Adapter<RemindersAdapter.ReVi
         }
     }
 
-    public RemindersAdapter(String[] ds){
-        dataset = ds;
+    public RemindersAdapter(ArrayList<String> msgs, ArrayList<String> sdrs){
+        messages = msgs;
+        senders = sdrs;
     }
 
     @Override
@@ -33,12 +36,12 @@ public class RemindersAdapter extends RecyclerView.Adapter<RemindersAdapter.ReVi
 
     @Override
     public void onBindViewHolder(ReViewHolder holder, int position){
-        holder.mTextView.setText(dataset[position]);
+        holder.mTextView.setText(senders.get(position) + " reminds you to " + messages.get(position));
     }
 
     @Override
     public int getItemCount(){
-        return dataset.length;
+        return messages.size();
     }
 
     @Override

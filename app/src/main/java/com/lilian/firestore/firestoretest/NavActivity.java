@@ -96,11 +96,11 @@ public class NavActivity extends AppCompatActivity
             // Handle the camera action
             fragmentClass = SendActivity.class;
         } else if (id == R.id.nav_reminders) {
-
+            fragmentClass = RemindersActivity.class;
         } else if (id == R.id.nav_friends_list) {
 
         } else if (id == R.id.nav_friend_requests) {
-
+            fragmentClass = RequestsActivity.class;
         } else if (id == R.id.nav_add_friend) {
 
         }
