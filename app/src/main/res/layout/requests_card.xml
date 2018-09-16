@@ -30,13 +30,14 @@
                 android:text="Accept"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/friends_text" />
+                android:layout_below="@id/requests_text" />
             <Button
                 android:id="@+id/button_decline"
                 android:text="Decline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/button_accept"
+                android:layout_below="@id/requests_text"
                 />
             <TextView
                 android:id="@+id/requests_text"

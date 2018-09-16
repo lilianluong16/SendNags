@@ -1,6 +1,7 @@
 package com.lilian.firestore.firestoretest;
 
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,10 +18,13 @@ import java.util.ArrayList;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-public class FriendsListActivity extends AppCompatActivity {
+public class FriendsListActivity extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -31,14 +35,22 @@ public class FriendsListActivity extends AppCompatActivity {
     private static final String TAG = "FriendsListActivity";
     public ArrayList<String> friends = new ArrayList<String>();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    static FriendsListActivity newInstance(int num) {
+        FriendsListActivity f = new FriendsListActivity();
+        return f;
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friends_list);
+        return inflater.inflate(R.layout.activity_friends_list, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+        final View v = view;
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
-
 
         final DocumentReference docRef = db.collection("users").document(mUser.getEmail());
 
@@ -46,8 +58,8 @@ public class FriendsListActivity extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
                                 @Nullable FirebaseFirestoreException e) {
-                mRecyclerView = findViewById(R.id.friends_recycler_view);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(FriendsListActivity.this);
+                mRecyclerView = getView().findViewById(R.id.friends_recycler_view);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
                 layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                 mRecyclerView.setLayoutManager(layoutManager);
                 friends = new ArrayList<String>();

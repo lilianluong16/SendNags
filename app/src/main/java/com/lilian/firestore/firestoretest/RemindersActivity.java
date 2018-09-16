@@ -51,13 +51,13 @@ public class RemindersActivity extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         final View v = view;
+        db = FirebaseFirestore.getInstance();
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.reminders_recycler_view);
         String email = mUser.getEmail();
 
-        CollectionReference remRef = db.collection("users")
-                .document(email).collection("reminders");
-        remRef.get()
+        db.collection("users")
+                .document(email).collection("reminders").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -71,7 +71,7 @@ public class RemindersActivity extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 messages.add(document.getData().get("message").toString());
-                                senders.add(document.getData().get("message").toString());
+                                senders.add(document.getData().get("sender").toString());
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
