@@ -9,12 +9,13 @@ import android.widget.TextView;
 import android.view.View.OnClickListener;
 
 public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.ReViewHolder> {
-    private String[] dataset;
+    public static String[] dataset;
     private static final String TAG = "FriendsListAdapter";
 
     public static class ReViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView mTextView;
+        public AddFriendsActivity addFriendsActivity = new AddFriendsActivity();
         public ReViewHolder(final View itemView) {
             super(itemView);
             mTextView = itemView.findViewById(R.id.friends_text);
@@ -27,11 +28,14 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
             public void onClick(View v) {
                 if (v.getId() == R.id.button_accept) {
 
-                    Log.d(TAG, "accept " + String.valueOf(getAdapterPosition()));
+                    Log.d(TAG, "accept " + dataset[getAdapterPosition()]);
+                    addFriendsActivity.addFriend(""+dataset[getAdapterPosition()]);
+                    addFriendsActivity.deleteRequest(""+dataset[getAdapterPosition()]);
                 }
                 if (v.getId() == R.id.button_decline) {
 
                     Log.d(TAG, "decline " + String.valueOf(getAdapterPosition()));
+                    addFriendsActivity.deleteRequest(""+dataset[getAdapterPosition()]);
                 }
 
             }

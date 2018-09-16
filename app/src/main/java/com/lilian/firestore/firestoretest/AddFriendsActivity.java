@@ -45,8 +45,6 @@ public class AddFriendsActivity extends AppCompatActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.button_send:
                 String target = sendRequest();
-                // return whether other person says yes
-                // addFriend(target);
                 break;
             // ...
         }
@@ -65,7 +63,7 @@ public class AddFriendsActivity extends AppCompatActivity implements View.OnClic
                     if (document.exists()) {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         userRef
-                                .update("requests", FieldValue.arrayUnion(mUser.getDisplayName()));
+                                .update("requests", FieldValue.arrayUnion(mUser.getEmail()));
                         // send request
 
                     } else {
@@ -80,12 +78,47 @@ public class AddFriendsActivity extends AppCompatActivity implements View.OnClic
 
         return email;
     }
-    private void addFriend(String email){
+
+    public String deleteRequest(String email) {
+        final String emailFriend = email;
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+        final DocumentReference userRef = db.collection("users").document(mUser.getEmail());
+        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        userRef
+                                .update("requests", FieldValue.arrayRemove(emailFriend));
+                        // send request
+
+                    } else {
+                        Log.d(TAG, "No such person");
+                        // display this person doesnt exist
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+        return email;
+    }
+
+    public void addFriend(String email){
 
         //user.put("email", mUser.getEmail());
+
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        db = FirebaseFirestore.getInstance();
 
         // go into users, go into that person, go into "friends" array, add email of friend
         db.collection("users").document(mUser.getEmail())
                 .update("friends", FieldValue.arrayUnion(email));
+        db.collection("users").document(email)
+                .update("friends", FieldValue.arrayUnion(mUser.getEmail()));
     }
 }

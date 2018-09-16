@@ -52,10 +52,7 @@ public class FriendsListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friends_list);
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
-        mRecyclerView = (RecyclerView) findViewById(R.id.friends_recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(layoutManager);
+
 
         final DocumentReference docRef = db.collection("users").document(mUser.getEmail());
 
@@ -63,6 +60,11 @@ public class FriendsListActivity extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
                                 @Nullable FirebaseFirestoreException e) {
+                mRecyclerView = findViewById(R.id.friends_recycler_view);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(FriendsListActivity.this);
+                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                mRecyclerView.setLayoutManager(layoutManager);
+                friends = new ArrayList<String>();
                 if (e != null) {
                     Log.w(TAG, "Listen failed.", e);
                     return;
@@ -72,6 +74,7 @@ public class FriendsListActivity extends AppCompatActivity {
                     Log.d(TAG, "Current data: " + snapshot.getData());
                     if ((ArrayList<String>)snapshot.getData().get("requests")!=null) {
                         for(String friend:(ArrayList<String>)snapshot.getData().get("requests")) {
+                            Log.d(TAG, "adding " + friend);
                             friends.add(friend);
                         }
 
