@@ -19,7 +19,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class RemindersAdapter extends RecyclerView.Adapter<RemindersAdapter.ReViewHolder> {
-    private ArrayList<String> messages, senders;
+    private ArrayList<String> messages, senders, times;
     private FirebaseUser mUser;
 
     private FirebaseFirestore db;
@@ -32,9 +32,10 @@ public class RemindersAdapter extends RecyclerView.Adapter<RemindersAdapter.ReVi
         }
     }
 
-    public RemindersAdapter(ArrayList<String> msgs, ArrayList<String> sdrs){
+    public RemindersAdapter(ArrayList<String> msgs, ArrayList<String> sdrs, ArrayList<String> tms){
         messages = msgs;
         senders = sdrs;
+        times = tms;
     }
 
     @Override
@@ -62,7 +63,8 @@ public class RemindersAdapter extends RecyclerView.Adapter<RemindersAdapter.ReVi
 
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                holder1.mTextView.setText(document.get("name") + " reminds you to " + messages.get(position1));
+                                holder1.mTextView.setText(document.get("name") + " reminds you to " + messages.get(position1)
+                                        + " at " + times.get(position1));
                                 break;
                             }
                         } else {

@@ -38,6 +38,9 @@ public class NotificationMgr {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
+        while(System.currentTimeMillis() > calendar.getTimeInMillis()){
+            calendar.add(Calendar.DATE, 1);
+        }
 
         Intent intent = new Intent(mContext, AlarmReceiver.class);
         intent.putExtra("message", msg);
@@ -48,8 +51,8 @@ public class NotificationMgr {
         Log.d("test", String.valueOf(System.currentTimeMillis()));
         Log.d("this is alarm set for", String.valueOf(hour) + ":" + String.valueOf(minute));
         Log.d("setting alarm now", String.valueOf(calendar.getTimeInMillis() - System.currentTimeMillis()) + " remaining");
-        alarmMgr.set(AlarmManager.RTC_WAKEUP,
-                calendar.getTimeInMillis(),
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY,
                 pendingIntent);
     }
 

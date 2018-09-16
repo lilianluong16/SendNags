@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 public class NotificationHelper extends ContextWrapper {
     public static final String channelID = "channelID";
@@ -17,6 +18,7 @@ public class NotificationHelper extends ContextWrapper {
 
     public NotificationHelper(Context base) {
         super(base);
+        Log.d("help", "notificationhelper created");
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannels();
         }
@@ -39,7 +41,7 @@ public class NotificationHelper extends ContextWrapper {
         if (mManager == null){
             mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         }
-
+        Log.d("getmanager", "gotten");
         return mManager;
     }
 

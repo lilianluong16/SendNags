@@ -33,6 +33,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     }
     public void sendOnChannel1(String title, String message){
+        Log.d("sendonchannel", "true");
         NotificationCompat.Builder nb = mNotificationHelper.getChannelNotification(title, message);
         mNotificationHelper.getManager().notify(1, nb.build());
     }

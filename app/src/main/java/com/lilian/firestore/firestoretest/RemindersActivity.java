@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -55,30 +56,32 @@ public class RemindersActivity extends Fragment {
         db = FirebaseFirestore.getInstance();
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.reminders_recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
         String email = mUser.getEmail();
 
         db.collection("users")
-                .document(email).collection("reminders").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .document(email).collection("reminders")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
-                        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        mRecyclerView.setLayoutManager(layoutManager);
+                    public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                        if(e != null){
+                            Log.w("main", "listen:error", e);
+                            return;
+                        }
 
                         ArrayList<String> messages = new ArrayList<String>();
                         ArrayList<String> senders = new ArrayList<String>();
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                messages.add(document.getData().get("message").toString());
-                                senders.add(document.getData().get("sender").toString());
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        ArrayList<String> times = new ArrayList<String>();
+                        for(DocumentSnapshot document: queryDocumentSnapshots){
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            messages.add(document.getData().get("message").toString());
+                            senders.add(document.getData().get("sender").toString());
+                            times.add(String.format("%02d", document.get("hour")) + ":" + String.format("%02d", document.get("minute")));
                         }
 
-                        mAdapter = new RemindersAdapter(messages, senders);
+                        mAdapter = new RemindersAdapter(messages, senders, times);
                         mRecyclerView.setAdapter(mAdapter);
                     }
                 });
