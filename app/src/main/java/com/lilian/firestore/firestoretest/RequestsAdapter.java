@@ -17,7 +17,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ReView
         public AddFriendsActivity addFriendsActivity = new AddFriendsActivity();
         public ReViewHolder(final View itemView) {
             super(itemView);
-            mTextView = itemView.findViewById(R.id.friends_text);
+            mTextView = itemView.findViewById(R.id.requests_text);
             itemView.findViewById(R.id.button_accept).setOnClickListener(this);
             itemView.findViewById(R.id.button_decline).setOnClickListener(this);
         }
