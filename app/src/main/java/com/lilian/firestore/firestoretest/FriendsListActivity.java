@@ -51,6 +51,10 @@ public class FriendsListActivity extends Fragment {
         final View v = view;
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
+        mRecyclerView = getView().findViewById(R.id.friends_recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
 
         final DocumentReference docRef = db.collection("users").document(mUser.getEmail());
 
@@ -58,10 +62,7 @@ public class FriendsListActivity extends Fragment {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
                                 @Nullable FirebaseFirestoreException e) {
-                mRecyclerView = getView().findViewById(R.id.friends_recycler_view);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
-                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                mRecyclerView.setLayoutManager(layoutManager);
+
                 friends = new ArrayList<String>();
                 if (e != null) {
                     Log.w(TAG, "Listen failed.", e);

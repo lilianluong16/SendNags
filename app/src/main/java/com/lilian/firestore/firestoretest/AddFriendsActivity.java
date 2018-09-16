@@ -1,10 +1,14 @@
 package com.lilian.firestore.firestoretest;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,21 +27,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AddFriendsActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddFriendsActivity extends Fragment implements View.OnClickListener {
 
     private FirebaseFirestore db;
     private FirebaseUser mUser;
     private static final String TAG = "AddFriendsActivity";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "NEW ACTIVITY");
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_friends);
+    static AddFriendsActivity newInstance(int num) {
+        AddFriendsActivity f = new AddFriendsActivity();
+        return f;
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        return inflater.inflate(R.layout.activity_add_friends, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+        final View v = view;
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
-        findViewById(R.id.button_send).setOnClickListener(this);
+        getView().findViewById(R.id.button_send).setOnClickListener(this);
     }
 
     @Override
@@ -51,7 +63,7 @@ public class AddFriendsActivity extends AppCompatActivity implements View.OnClic
     }
 
     private String sendRequest() {
-        EditText friend = (EditText) findViewById(R.id.edittext_email);
+        EditText friend = (EditText) getView().findViewById(R.id.edittext_email);
         final String email = friend.getText().toString();
 
         final DocumentReference userRef = db.collection("users").document(email);
