@@ -186,7 +186,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             });
 
             Log.d(TAG, "changing activity");
-            Intent startIntent = new Intent(this, AddFriendsActivity.class);
+            Intent startIntent = new Intent(this, SendActivity.class);
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startIntent);
         }

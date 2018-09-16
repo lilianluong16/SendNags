@@ -14,6 +14,7 @@ public class RemindersActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private FirebaseUser mUser;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
